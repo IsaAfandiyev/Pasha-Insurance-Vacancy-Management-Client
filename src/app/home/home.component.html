@@ -1,0 +1,20 @@
+<section class="hero">
+  <div class="video-container">
+    <youtube-player videoId="4nsV2fsJt-I" [width]="1000" [height]="">
+    </youtube-player>
+  </div>
+</section>
+
+<section>
+  <h1 class="title">VAKANSIYALAR</h1>
+
+  <div class="container">
+    <div nz-row [nzGutter]="[16, 16]">
+      @for (vacancy of vacancies; track vacancy.id) {
+      <div nz-col nzSpan="8">
+        <app-card ngFor="let vacancy of vacancies" [vacancy]="vacancy" />
+      </div>
+      }
+    </div>
+  </div>
+</section>

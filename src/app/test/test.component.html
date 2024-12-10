@@ -1,0 +1,154 @@
+@if (loading) {
+<app-loading />
+}
+
+<div class="container">
+  @if (status === 'welcome') {
+  <h1 class="welcome-title">Hello, {{ application?.name }}</h1>
+  <h4 class="welcome-subtitle">IF YOU ARE READY, LET'S START!</h4>
+  <div class="test-rules">
+    <strong>Test Instructions:</strong>
+    <ul>
+      <li>
+        You will have a total of
+        <strong>{{ questions.length }} minutes</strong> to complete the entire
+        test. The time is distributed across all questions, and you can spend it
+        as you like on each question.
+      </li>
+      <li>
+        Questions will be displayed one at a time. You must answer the current
+        question before proceeding to the next one.
+      </li>
+      <li>
+        You will have {{ questions.length }} answer options for each question.
+        You can select only one option per question.
+      </li>
+      <li>
+        Once you proceed to the next question, you cannot go back to change your
+        answers.
+      </li>
+      <li>
+        Your answers will not be reviewed or corrected during or after the test.
+      </li>
+    </ul>
+  </div>
+  <div class="test-timer-info">
+    <strong>Countdown Timer:</strong> You will see a countdown timer for each
+    question. Be sure to complete each question before the timer runs out!
+  </div>
+  <button
+    nz-button
+    nzType="primary"
+    (click)="onTestStart()"
+    class="start-button"
+  >
+    Start Test
+  </button>
+  } @if (status === 'questions') {
+  <div class="question-timer">
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="24"
+      height="24"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="2"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+      style="margin-right: 8px"
+    >
+      <circle cx="12" cy="13" r="9"></circle>
+      <line x1="12" y1="6" x2="12" y2="12"></line>
+      <line x1="12" y1="12" x2="16" y2="14"></line>
+      <line x1="9" y1="2" x2="15" y2="2"></line>
+    </svg>
+    <span>{{ questionTimerDisplay }}</span>
+  </div>
+
+  <nz-tabset #tabset>
+    <nz-tab
+      *ngFor="let tab of questions; let i = index"
+      [nzTitle]="'Question #' + (i + 1)"
+      [nzDisabled]="disabledTabs[i]"
+      class="test-tab"
+    >
+      <div class="question-text">
+        <h4>{{ tab.text }}</h4>
+      </div>
+
+      <hr />
+
+      <div class="radio-group">
+        <nz-radio-group [(ngModel)]="currentAnswer">
+          <label
+            *ngFor="let o of tab.options"
+            nz-radio
+            [nzValue]="o"
+            class="radio-option"
+            >{{ o }}</label
+          >
+        </nz-radio-group>
+      </div>
+
+      <div class="next-button-container">
+        @if (i < questions.length - 1) {
+        <button
+          nz-button
+          (click)="goToNextTab(i, tabset)"
+          [disabled]="!currentAnswer"
+          class="next-button"
+        >
+          Submit and go to next question
+        </button>
+        } @if (i === questions.length - 1) {
+        <button nz-button (click)="onFinishTest()" class="next-button">
+          Submit and Finish Test
+        </button>
+        }
+      </div>
+    </nz-tab>
+  </nz-tabset>
+  } @if (status === 'cv') {
+  <h1 class="welcome-title">Congratulations! {{ application?.name }}</h1>
+  <h4 class="welcome-subtitle">
+    You successfully completed the application test. Now please upload your CV
+    in <b>pdf</b> or <b>doc</b> format with <b>5MB</b> file size limit.
+  </h4>
+  <hr />
+  <div style="text-align: center">
+    <input type="file" (change)="onFileSelected($event)" required />
+    @if (fileError) {
+    <div style="color: red">
+      <p>{{ fileError }}</p>
+    </div>
+    }
+
+    <button
+      nz-button
+      class="start-button"
+      (click)="onUpload()"
+      [disabled]="fileError"
+    >
+      Upload File
+    </button>
+  </div>
+  } @if (status === 'finish') {
+  <div>
+    <h1 class="welcome-title">Congratulations! {{ application?.name }}</h1>
+    <h4 class="welcome-subtitle">
+      You successfully completed the application test and submitted your CV. We
+      will contact you in 3-5 business days.
+    </h4>
+    <a href="/" nz-button nzType="primary" class="start-button go-home">
+      Go back to homepage
+    </a>
+  </div>
+  } @if (status === 'failed') {
+  <h1 class="welcome-title">Dear, {{ application?.name }}</h1>
+  <h4 class="welcome-subtitle failed">Unfortunately, you failed the test.</h4>
+  <a href="/" nz-button nzType="primary" class="start-button go-home">
+    Go back to homepage
+  </a>
+  }
+</div>

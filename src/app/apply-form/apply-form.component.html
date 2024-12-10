@@ -1,0 +1,78 @@
+<div class="form-container">
+  <form (submit)="formSubmit(form)" #form="ngForm" class="form">
+    <div class="form-group" nz-form-item>
+      <nz-form-label [nzFor]="'fullName'" nzRequired>Full Name</nz-form-label>
+      <nz-form-control>
+        <input
+          nz-input
+          type="text"
+          id="fullName"
+          placeholder="Name, Surname"
+          name="name"
+          ngModel
+          #fullName="ngModel"
+          required
+          class="form-input"
+        />
+      </nz-form-control>
+      <div *ngIf="fullName.invalid && fullName.touched" class="error-message">
+        <small>Full Name is required.</small>
+      </div>
+    </div>
+
+    <!-- Email Field -->
+    <div class="form-group" nz-form-item>
+      <nz-form-label [nzFor]="'email'" nzRequired>Email</nz-form-label>
+      <nz-form-control>
+        <input
+          nz-input
+          type="email"
+          id="email"
+          placeholder="Email"
+          name="email"
+          ngModel
+          #email="ngModel"
+          pattern="[a-z0-9._%+\-]+@[a-z0-9.\-]+\.[a-z]{2,}$"
+          required
+          class="form-input"
+        />
+      </nz-form-control>
+      <div *ngIf="email.invalid && email.touched" class="error-message">
+        <small *ngIf="email.hasError('required')">Email is required.</small>
+        <small *ngIf="email.hasError('pattern')">Invalid Email format.</small>
+      </div>
+    </div>
+
+    <!-- Phone Field -->
+    <div class="form-group" nz-form-item>
+      <nz-form-label [nzFor]="'phone'" nzRequired>Phone</nz-form-label>
+      <nz-form-control>
+        <input
+          nz-input
+          type="tel"
+          id="phone"
+          placeholder="+994123456789"
+          name="phone"
+          ngModel
+          #phone="ngModel"
+          pattern="^\+994\d{9}$"
+          required
+          class="form-input"
+        />
+      </nz-form-control>
+      <div *ngIf="phone.invalid && phone.touched" class="error-message">
+        <small *ngIf="phone.hasError('required')">Phone is required.</small>
+        <small *ngIf="phone.hasError('pattern')">Invalid Phone format.</small>
+      </div>
+    </div>
+
+    <button
+      nz-button
+      nzType="primary"
+      [disabled]="form.invalid"
+      class="submit-button"
+    >
+      Next
+    </button>
+  </form>
+</div>
