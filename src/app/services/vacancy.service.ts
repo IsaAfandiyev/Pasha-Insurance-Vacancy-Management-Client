@@ -6,11 +6,14 @@ import { Vacancy } from '../types';
 @Injectable({
   providedIn: 'root',
 })
+const ApiUrl =   process.env['API_URL'] || "http://localhost:3000"
+
 export class VacancyService {
+
   constructor(private apiService: ApiService) {}
 
   getVacancies = (url: string, params?: any): Observable<Vacancy[]> => {
-    return this.apiService.get('http://localhost:3000' + url, {
+    return this.apiService.get(ApiUrl + url, {
       ...params,
       responseType: 'json',
     });
@@ -18,7 +21,7 @@ export class VacancyService {
 
   getVacancyById = (url: string, vacancyId: string): Observable<Vacancy[]> => {
     return this.apiService.get(
-      'http://localhost:3000' + url + '/' + vacancyId,
+      ApiUrl + url + '/' + vacancyId,
       {
         responseType: 'json',
       }
@@ -26,14 +29,14 @@ export class VacancyService {
   };
 
   getQuestions = (url: string, params?: any): Observable<Vacancy[]> => {
-    return this.apiService.get('http://localhost:3000' + url, {
+    return this.apiService.get(ApiUrl + url, {
       ...params,
       responseType: 'json',
     });
   };
 
   uploadCv = (url: string, params?: any): Observable<Vacancy[]> => {
-    return this.apiService.post('http://localhost:3000' + url, {
+    return this.apiService.post(ApiUrl + url, {
       ...params,
       responseType: 'json',
     });
