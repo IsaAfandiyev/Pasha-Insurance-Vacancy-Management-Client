@@ -3,10 +3,12 @@ import { ApiService } from './api.service';
 import { Observable } from 'rxjs';
 import { Vacancy } from '../types';
 
+const ApiUrl =   'https://pasha-task.netlify.app/.netlify/functions/api'
+
+
 @Injectable({
   providedIn: 'root',
 })
-const ApiUrl =   process.env['API_URL'] || "http://localhost:3000"
 
 export class VacancyService {
 
@@ -19,14 +21,7 @@ export class VacancyService {
     });
   };
 
-  getVacancyById = (url: string, vacancyId: string): Observable<Vacancy[]> => {
-    return this.apiService.get(
-      ApiUrl + url + '/' + vacancyId,
-      {
-        responseType: 'json',
-      }
-    );
-  };
+
 
   getQuestions = (url: string, params?: any): Observable<Vacancy[]> => {
     return this.apiService.get(ApiUrl + url, {

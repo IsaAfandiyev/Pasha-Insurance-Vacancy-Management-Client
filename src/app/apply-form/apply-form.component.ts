@@ -38,16 +38,10 @@ export class ApplyFormComponent {
     this.router.navigate(['/test']);
   }
 
-  fetchVacancy(id: string): void {
-    this.vacancyService.getVacancyById('/vacancy', id).subscribe({
-      error: () => {
-        this.router.navigate(['/']);
-      },
-    });
-  }
+
 
   ngOnInit(): void {
     this.vacancyId = this.route.snapshot.paramMap.get('id') || '';
-    this.fetchVacancy(this.vacancyId);
+
   }
 }
